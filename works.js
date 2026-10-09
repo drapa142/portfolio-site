@@ -117,7 +117,7 @@ function showWeather(code) {
     var icon = document.getElementById("weather-icon");
 
     if (code === 0) {
-        icon.textContent = "*";
+        icon.textContent = "☀";
         document.body.className = "weather-sunny";
 
     } else if (code >= 1 && code <= 3) {
