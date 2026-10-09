@@ -3,7 +3,7 @@
         return response.text();
     })
     .then(function(data) {
-        var rows = data.trim().split("\n");
+        var rows = data.trim().split(/\r?\n/);
         var headers = rows[0].split(",");
 
         var works = rows.slice(1).map(function(row) {
