@@ -1,34 +1,22 @@
-fetch("works.csv")
-    .then(function(response) {return response.text();
+    fetch("works.csv")
+    .then(function(response) {
+        return response.text();
     })
     .then(function(data) {
         var rows = data.trim().split("\n");
-        var headers =rows[0].split(",");
+        var headers = rows[0].split(",");
+
         var works = rows.slice(1).map(function(row) {
             var values = row.split(",");
             var work = {};
             headers.forEach(function(header, index) {
-                work[header.trim()] = values[index].trim();
-            })
+                work[header] = values[index];
+            });
             return work;
         });
-        console.log(headers);
-        console.log(works[0]);
         var grid = document.getElementById("works-grid");
         var categorySelect = document.getElementById("category");
         var sortSelect = document.getElementById("sort");
-
-        works.forEach(function(work) {
-            var card = document.createElement("article");
-            card.className = "work-card";
-            card.innerHTML =
-                '<a href="' + work.link + '">' +
-                    '<img src="' + work.image + '" alt="' +work.title + '">' +
-                    '<h4>' + work.title + '</h4>' +
-                    '<p>' + work.description + '</p>' +
-                '</a>';
-            grid.appendChild(card);
-        })
 
         var categories = [];
 
@@ -36,7 +24,7 @@ fetch("works.csv")
             if (!categories.includes(work.category)) {
                 categories.push(work.category);
             }
-        })
+        });
 
         categories.forEach(function(category) {
             var option = document.createElement("option");
@@ -48,40 +36,30 @@ fetch("works.csv")
         function displayWorks() {
             var selectedCategory = categorySelect.value;
             var sortType = sortSelect.value;
-            var filteredWorks =works.slice();
+            var filteredWorks = works.slice();
 
-            console.log(sortType);
-
-            if (selectedCategory !=="all") {
+            if (selectedCategory !== "all") {
                 filteredWorks = filteredWorks.filter(function(work) {
                     return work.category === selectedCategory;
                 });
-                
-            console.log(filteredWorks);
+            }
+
             if (sortType === "new") {
-                console.log("new");
                 filteredWorks.sort(function(a, b) {
                     return Number(b.year) - Number(a.year);
                 });
             }
             else if (sortType === "old") {
-                console.log("old");
                 filteredWorks.sort(function(a, b) {
                     return Number(a.year) - Number(b.year);
                 });
             }
             else if (sortType === "title") {
-                console.log("title");
-                filteredWorks.sort(function(a, b) {
-                    return a.title.localeCompare(b.title, "ja");
-                });
-                console.log(filteredWorks);
-                
                 filteredWorks.sort(function(a, b) {
                     return a.title.localeCompare(b.title, "ja");
                 });
             }
-            }
+            
             grid.innerHTML = "";
 
             filteredWorks.forEach(function(work) {
@@ -91,15 +69,15 @@ fetch("works.csv")
                     '<a href="' + work.link + '">' +
                         '<img src="' + work.image + '" alt="' + work.title + '">' +
                         '<div class="work-info">' +
-                            '<p class="work-category">' + work.category + work.year + '</p>' +
+                            '<p class="work-category">' + work.category + '</p>' +
                             '<h4>' + work.title + '</h4>' +
                             '<p>' + work.description + '</p>' +
-                            '<p class="work-year">' + '</p>' +
+                            '<p class="work-year">' + work.year + '</p>' +
                         '</div>' +
-                    '</a>'
-                
+                    '</a>';
                 grid.appendChild(card);
             });
+
         }
 
         displayWorks();
@@ -111,4 +89,6 @@ fetch("works.csv")
         sortSelect.addEventListener("change", function() {
             displayWorks();
         });
+
+        
     })
