@@ -136,7 +136,7 @@ function showWeather(code) {
 
 
 function loadDuck() {
-    fetch("https://random-d.uk/api/random")
+    fetch("https://birds.youluv.org/api")
         .then(function(response) {
             return response.json();
         })
