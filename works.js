@@ -133,3 +133,16 @@ function showWeather(code) {
         document.body.className = "weather-cloudy";
     }
 }
+
+
+function loadDuck() {
+    fetch("https://random-d.uk/api/random")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            document.getElementById("duck-image").src = data.url;
+        });
+}
+
+loadDuck();
