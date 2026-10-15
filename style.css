@@ -136,15 +136,3 @@ body.weather-rainy .site-header {
     background-color: #cbd9e5;
 }
 
-#weather-area {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-#duck-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
-}

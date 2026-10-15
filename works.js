@@ -134,15 +134,32 @@ function showWeather(code) {
     }
 }
 
+// --- キツネガチャ機能の追加 ---
+const foxBtn = document.getElementById("fox-btn");
+const foxImage = document.getElementById("fox-image");
 
-function loadDuck() {
-    fetch("https://birds.youluv.org/api")
+// キツネの画像を取ってくる関数を作る
+function fetchFox() {
+    fetch("https://randomfox.ca/floof/")
         .then(function(response) {
             return response.json();
         })
         .then(function(data) {
-            document.getElementById("duck-image").src = data.url;
+            // 画像のURLをセットして、画像タグを表示させる
+            foxImage.src = data.image;
+            foxImage.style.display = "block";
+        })
+        .catch(function(error) {
+            console.error("キツネの取得に失敗しました:", error);
         });
 }
 
-loadDuck();
+// 1. 【新しく追加】ページを開いた瞬間（読み込み時）に1回実行する
+window.addEventListener("DOMContentLoaded", function() {
+    fetchFox();
+});
+
+// 2. ボタンをクリックしたときにも実行する
+foxBtn.addEventListener("click", function() {
+    fetchFox();
+});
